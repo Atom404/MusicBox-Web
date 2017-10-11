@@ -1,0 +1,7 @@
+django(1.11.4)
+beautifulsoup4(4.6.0)
+bs4(0.0.1)
+demjson(2.2.4)
+lxml(3.8.0)
+
+

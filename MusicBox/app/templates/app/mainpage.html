@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <title>音乐匣</title>
+  <meta charset="utf-8">
+  <meta name="author" content="K">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+  <link rel="stylesheet" href="/static/app/css/music.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+  <script src="/static/app/js/music.js"></script>
+</head>
+  <body>
+	{% csrf_token %}
+	<audio id="source" src="#"></audio>
+	  <div class="container">
+		<div class="row" id="tabbar">
+			<div class="col-lg-3">
+				<img id="profilephoto" onclick="hide()" alt="或许是某人的头像吧" src="/static/app/img/c.jpg" />
+			</div>
+			<div class="col-lg-6">
+				<img id="mainpic" alt="或许是主题图标吧" src="/static/app/img/theme.png" />
+			</div>
+			<div class="col-lg-3">
+				<p id="showmes" onclick="userlog()">LOGIN</p>
+			</div>
+		</div>
+		<div class="row" id="musicbox">
+			<div class="col-lg-4">
+				<div id="shadow"></div>
+				<img id="cover" alt="嗯，这儿应该有张专辑封面的" src="/static/app/img/c.jpg" />
+			</div>
+			<div class="col-lg-8">
+				<div class="row">
+					<div class="col-lg-3">
+						<img id="play" class="button" onclick="playmusic()" alt="咦，播放按钮呢" src="/static/app/img/play.png" />
+					</div>
+					<div class="col-lg-3">
+						<img id="stop" class="button" onclick="stopmusic()" alt="咦，停止按钮呢" src="/static/app/img/stop.png" />
+					</div>
+					<div class="col-lg-3">
+						<img id="next" class="button" onclick="nextmusic()" alt="咦，下一曲按钮呢" src="/static/app/img/next.png" />
+					</div>
+					<div class="col-lg-3">
+						<img id="like" class="button" onclick="likemusic()" alt="咦，喜欢按钮呢" src="/static/app/img/dislike.png" />
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12">
+						<div id="slider">
+							<div id="processor" ></div>
+							<div id="controller" ></div>
+						</div>
+						<marquee behavior="srcoll" id="songmes">Hello World,Hello Music</marquee>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row" id="searchbox">
+			<div class="col-lg-11">
+				<input placeholder="Let's open the door of music!" id="box" name="searchmes" type="text" value="" /> 
+			</div>
+			<div class="col-lg-1">
+				<img id="search" data-toggle="modal" data-target="#searchModal" class="button" onclick="searchsong()" alt="咦，搜索按钮呢" src="/static/app/img/search.png" />
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true" >
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">Login</h4>
+				</div>
+				<div class="modal-body">
+					<p>
+						<label for="name">Username : </label>
+						<input onkeydown="if(event.keyCode==13){userlogin();}" type="email" id="name" placeholder="plz enter your E-mail">
+					</p>
+					<p>
+						<label for="pass">Password : </label>
+						<input onkeydown="if(event.keyCode==13){userlogin();}" type="password" id="pass" placeholder="plz enter your password">
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" onclick="userreg()" >Regist</button>
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" onclick="userlogin()">Confirm</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="registModal" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true" >
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">Regist</h4>
+				</div>
+				<div class="modal-body">
+					<p>
+						<label for="name">Username : </label>
+						<input onkeydown="if(event.keyCode==13){userregist();}" type="email" id="rname" placeholder="plz enter your E-mail">
+					</p>
+					<p>
+						<label for="pass">Password : </label>
+						<input onkeydown="if(event.keyCode==13){userregist();}" type="password" id="rpass" placeholder="plz enter your password">
+					</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" onclick="userregist()">Confirm</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="searchLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">Results of search</h4>
+				</div>
+				<div class="modal-body">
+					<table class="table table-striped">
+					  <thead>
+						<tr>
+						  <th>SongName</th>
+						  <th>Singer</th>
+						  <th>Click to play</th>
+						</tr>
+					  </thead>
+					  <tbody>
+						<tr>
+						  <td>None</td>
+						  <td>None</td>
+						  <td><a href="javascript:void(0)" onclick="playM(0)">Touch me</a></td>
+						</tr>
+					  </tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+   </body>
+</html>
