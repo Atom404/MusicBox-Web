@@ -33,7 +33,7 @@ def billborad_qq(billborad_url,song_list):
             song['songname'] = js['songlist'][index]['songName']
             song['singername'] = js['songlist'][index]['singerName']
             song['url'] = song_url.format(js['songlist'][index]['id'])
-            imgres = KG.search_mes(js['songlist'][index]['songName'].encode('utf-8'),1,1)
+            imgres = KG.search_mes(js['songlist'][index]['singerName'].encode('utf-8'),1,1)
             if 'error' not in imgres:
                 for i,j in imgres.items():
                     song['img'] = j['imgurl']
