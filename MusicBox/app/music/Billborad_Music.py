@@ -37,7 +37,7 @@ def billborad_qq(billborad_url,song_list):
             if 'error' not in imgres:
                 for i,j in imgres.items():
                     song['img'] = j['imgurl']
-                    if 'default_singer' in j['imgurl']:
+                    if 'default_singer' in j['imgurl'] or 'default' in j['imgurl'] or j['imgurl'] == "":
                         song['img'] = '/static/app/img/default.png'
             else:
                 song['img'] = '/static/app/img/default.png'
